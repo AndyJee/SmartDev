@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.andyjee.ecps.user.dao.MenuDao">
+
+    <select id="queryListParentId" resultType="cn.andyjee.ecps.user.po.MenuPo">
+		select * from um_menu where parent_id = #{parentId} order by order_num asc
+	</select>
+
+    <select id="queryNotButtonList" resultType="cn.andyjee.ecps.user.po.MenuPo">
+		select * from um_menu where type != 2 order by order_num asc
+	</select>
+
+</mapper>
