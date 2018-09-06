@@ -77,7 +77,7 @@ public class EnumCodeGenerator {
 
         /* 3- 写入文件 */
         FileUtil.del(javaEnumFile);
-        File file = FileUtil.appendUtf8Lines(codeLines, javaEnumFile);
+        FileUtil.appendUtf8Lines(codeLines, javaEnumFile);
     }
 
 }

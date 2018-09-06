@@ -31,7 +31,7 @@ public class AutoCodeExe {
         String codeBasePath = projectRootPath + "src/main/java/";
         System.out.println("代码路径：" + codeBasePath);
 
-        //test data
+        //todo test data
         PropertyData propertyData1 = new PropertyData();
         propertyData1.setIsKey(true);
         propertyData1.setCanNull(false);
