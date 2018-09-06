@@ -8,7 +8,7 @@ import lombok.Data;
  * @author AndyJee
  */
 @Data
-public class PropertyInExcel {
+public class PropertyData {
 
     /**
      * 序号

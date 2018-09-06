@@ -1,0 +1,83 @@
+package cn.andyjee.smartdev.autocode.generator;
+
+import cn.andyjee.smartdev.autocode.bean.EnumData;
+import com.xiaoleilu.hutool.io.FileUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 自动生成代码工具
+ */
+public class EnumCodeGenerator {
+
+    /**
+     * 生成Enum
+     *
+     * @param codeBasePath 代码生成目录
+     * @param enumData     枚举对象
+     */
+    public static void generatorCode(String codeBasePath, EnumData enumData) {
+
+        /* 1-创建文件*/
+        String codePackage = enumData.getCodePackage();
+        String codeChildPackageDir = codePackage.replaceAll("\\.", "\\" + File.separator);
+        String fileName = StrUtil.upperFirst(enumData.getEntityNameEn());
+        File javaEnumFile = new File(codeBasePath + File.separator + codeChildPackageDir + File.separator + "enums" + File.separator + fileName + ".java");
+
+        /* 2-编写文件内容 */
+        List<String> codeLines = new ArrayList();
+
+        //package
+        codeLines.add("package " + codePackage + ".enums;");
+        codeLines.add("");
+
+        //import枚举
+        codeLines.add("import com.baomidou.mybatisplus.enums.IEnum;");
+        codeLines.add("");
+        codeLines.add("import java.io.Serializable;");
+        codeLines.add("import java.util.*;");
+        codeLines.add("");
+
+        //class
+        codeLines.add("/**");
+        codeLines.add(" * " + enumData.getEntityNameCn());
+        codeLines.add(" *");
+        codeLines.add(" * @author SmartDev AutoCode v1.0");
+        codeLines.add(" */");
+        codeLines.add("public enum " + enumData.getEntityNameEn() + " implements IEnum {");
+        codeLines.add("");
+        codeLines.add("    //TODO SystemLogTypeEnum的属性值");
+        codeLines.add("    DEFAULT(-1, \"默认值\"),");
+        codeLines.add("    ;");
+        codeLines.add("");
+        codeLines.add("    /**");
+        codeLines.add("     * 数值");
+        codeLines.add("     */");
+        codeLines.add("    private Integer value;");
+        codeLines.add("");
+        codeLines.add("    /**");
+        codeLines.add("     * 描述");
+        codeLines.add("     */");
+        codeLines.add("    private String memo;");
+        codeLines.add("");
+        codeLines.add("    " + enumData.getEntityNameEn() + "(Integer value, String memo) {");
+        codeLines.add("        this.value = value;");
+        codeLines.add("        this.memo = memo;");
+        codeLines.add("    }");
+        codeLines.add("");
+        codeLines.add("    @Override");
+        codeLines.add("    public Serializable getValue() {");
+        codeLines.add("        return this.name();");
+        codeLines.add("    }");
+        codeLines.add("");
+        codeLines.add("}");
+
+        /* 3- 写入文件 */
+        FileUtil.del(javaEnumFile);
+        File file = FileUtil.appendUtf8Lines(codeLines, javaEnumFile);
+    }
+
+}

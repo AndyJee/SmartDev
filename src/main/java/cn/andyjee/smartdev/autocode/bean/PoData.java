@@ -8,7 +8,7 @@ import java.util.List;
  * Excel中描述的 实体
  */
 @Data
-public class PoInExcel {
+public class PoData {
 
     /**
      * 代码所在业务包（此包下将生成po,dao等子包）
@@ -26,8 +26,13 @@ public class PoInExcel {
     private String entityNameCn;
 
     /**
+     * 数据库表名
+     */
+    private String tableName;
+
+    /**
      * 属性列表
      */
-    List<PropertyInExcel> propertyList;
+    private List<PropertyData> propertyList;
 
 }
