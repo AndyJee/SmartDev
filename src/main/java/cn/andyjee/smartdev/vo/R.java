@@ -48,9 +48,27 @@ public class R extends JSONObject {
         return new R();
     }
 
+    /**
+     * 增加指定关键字的值
+     *
+     * @param key   指定关键字。请与前台约定好。
+     * @param value 值
+     * @return 已增加值对的本对象
+     */
     @Override
     public R put(String key, Object value) {
         super.put(key, value);
+        return this;
+    }
+
+    /**
+     * 增加关键字为data的值。一般推荐用于简单返回一个对象。
+     *
+     * @param value 值
+     * @return 已增加值对的本对象
+     */
+    public R putData(Object value) {
+        super.put("data", value);
         return this;
     }
 }
