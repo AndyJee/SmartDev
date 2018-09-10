@@ -2,7 +2,9 @@ package cn.andyjee.smartdev.autocode;
 
 import cn.andyjee.smartdev.autocode.bean.PoData;
 import cn.andyjee.smartdev.autocode.bean.PropertyData;
+import cn.andyjee.smartdev.autocode.generator.DaoCodeGenerator;
 import cn.andyjee.smartdev.autocode.generator.PoCodeGenerator;
+import cn.andyjee.smartdev.autocode.generator.ServiceCodeGenerator;
 import com.xiaoleilu.hutool.util.StrUtil;
 
 import java.io.File;
@@ -77,6 +79,10 @@ public class AutoCodeExe {
         //生成PO层代码
         PoCodeGenerator.generatorCode(codeBasePath, poInExcelList);
 
+        //生成DAO层代码
+        DaoCodeGenerator.generatorCode(codeBasePath, poInExcelList);
 
+        //生成Service层代码
+        ServiceCodeGenerator.generatorCode(codeBasePath, poInExcelList);
     }
 }

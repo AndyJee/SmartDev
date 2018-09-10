@@ -24,7 +24,7 @@ public class DaoCodeGenerator {
 
 
         for (PoData poInExcel : poInExcelList) {
-            DaoCodeGenerator.generatorPoCode(codeBasePath, poInExcel);
+            DaoCodeGenerator.generatorDaoCode(codeBasePath, poInExcel);
         }
     }
 
@@ -34,7 +34,7 @@ public class DaoCodeGenerator {
      * @param codeBasePath 代码生成目录
      * @param poInExcel    PO对象
      */
-    public static void generatorPoCode(String codeBasePath, PoData poInExcel) {
+    public static void generatorDaoCode(String codeBasePath, PoData poInExcel) {
 
         List<PropertyData> propertyList = poInExcel.getPropertyList();
 
@@ -53,7 +53,8 @@ public class DaoCodeGenerator {
         codeLines.add("");
 
         //import枚举
-        codeLines.add("import cn.andyjee.smartdev.po.MenuPo;");
+        codeLines.add("import cn.andyjee.smartdev.dao.IBaseDao;");
+        codeLines.add("import " + codePackage+ ".po." + poInExcel.getEntityNameEn() + "Po;");
         codeLines.add("import org.apache.ibatis.annotations.Mapper;");
         codeLines.add("");
 
@@ -63,8 +64,8 @@ public class DaoCodeGenerator {
         codeLines.add(" *");
         codeLines.add(" * @author SmartDev AutoCode v1.0");
         codeLines.add(" */");
-        codeLines.add("@@Mapper");
-        codeLines.add("public interface " + poInExcel.getEntityNameEn() + "Dao extends IBaseDao<" + poInExcel.getEntityNameEn() + "Po> {{");
+        codeLines.add("@Mapper");
+        codeLines.add("public interface I" + poInExcel.getEntityNameEn() + "Dao extends IBaseDao<" + poInExcel.getEntityNameEn() + "Po> {");
         codeLines.add("");
         codeLines.add("}");
 
