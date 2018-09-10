@@ -1,9 +1,7 @@
 package cn.andyjee.smartdev.autocode.generator;
 
 import cn.andyjee.smartdev.autocode.bean.PoData;
-import cn.andyjee.smartdev.autocode.bean.PropertyData;
 import com.xiaoleilu.hutool.io.FileUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,7 +10,7 @@ import java.util.List;
 /**
  * 自动生成代码工具
  */
-public class ServiceCodeGenerator {
+public class ServiceCodeGenerator extends BaseCodeGenerator {
 
     /**
      * 生成PO
@@ -37,14 +35,10 @@ public class ServiceCodeGenerator {
      */
     public static void generatorServiceCode(String codeBasePath, PoData poInExcel) {
 
-        List<PropertyData> propertyList = poInExcel.getPropertyList();
+        String codePackage = poInExcel.getCodePackage();
 
         /* 1-创建文件*/
-        String codePackage = poInExcel.getCodePackage();
-        String codeChildPackageDir = codePackage.replaceAll("\\.", "\\" + File.separator);
-        String fileName = StrUtil.upperFirst(poInExcel.getEntityNameEn());
-        File javaFile = new File(codeBasePath + File.separator + codeChildPackageDir + File.separator + "service" + File.separator + "I" + fileName + "Service.java");
-
+        File codeFile = createCodeFile(codeBasePath, codePackage, poInExcel.getEntityNameEn(), AutoCodeFileType.SERVICE);
 
         /* 2-编写文件内容 */
         List<String> codeLines = new ArrayList();
@@ -70,8 +64,7 @@ public class ServiceCodeGenerator {
 
 
         /* 3- 写入文件 */
-        FileUtil.del(javaFile);
-        FileUtil.appendUtf8Lines(codeLines, javaFile);
+        FileUtil.appendUtf8Lines(codeLines, codeFile);
     }
 
     /**
@@ -82,14 +75,11 @@ public class ServiceCodeGenerator {
      */
     public static void generatorServiceImplCode(String codeBasePath, PoData poInExcel) {
 
-        List<PropertyData> propertyList = poInExcel.getPropertyList();
+        String codePackage = poInExcel.getCodePackage();
         String entityNameEn = poInExcel.getEntityNameEn();
 
         /* 1-创建文件*/
-        String codePackage = poInExcel.getCodePackage();
-        String codeChildPackageDir = codePackage.replaceAll("\\.", "\\" + File.separator);
-        String fileName = StrUtil.upperFirst(poInExcel.getEntityNameEn());
-        File javaFile = new File(codeBasePath + File.separator + codeChildPackageDir + File.separator + "service" + File.separator + "impl" + File.separator + fileName + "ServiceImpl.java");
+        File codeFile = createCodeFile(codeBasePath, poInExcel.getCodePackage(), poInExcel.getEntityNameEn(), AutoCodeFileType.SERVICE_IMPL);
 
 
         /* 2-编写文件内容 */
@@ -123,7 +113,6 @@ public class ServiceCodeGenerator {
 
 
         /* 3- 写入文件 */
-        FileUtil.del(javaFile);
-        FileUtil.appendUtf8Lines(codeLines, javaFile);
+        FileUtil.appendUtf8Lines(codeLines, codeFile);
     }
 }

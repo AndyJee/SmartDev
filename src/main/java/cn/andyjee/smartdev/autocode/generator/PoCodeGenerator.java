@@ -4,7 +4,6 @@ import cn.andyjee.smartdev.autocode.bean.EnumData;
 import cn.andyjee.smartdev.autocode.bean.PoData;
 import cn.andyjee.smartdev.autocode.bean.PropertyData;
 import com.xiaoleilu.hutool.io.FileUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * 自动生成代码工具
  */
-public class PoCodeGenerator {
+public class PoCodeGenerator extends BaseCodeGenerator {
 
     /**
      * 生成PO
@@ -22,8 +21,6 @@ public class PoCodeGenerator {
      * @param poInExcelList PO对象列表
      */
     public static void generatorCode(String codeBasePath, List<PoData> poInExcelList) {
-
-
         for (PoData poInExcel : poInExcelList) {
             PoCodeGenerator.generatorPoCode(codeBasePath, poInExcel);
         }
@@ -38,12 +35,10 @@ public class PoCodeGenerator {
     public static void generatorPoCode(String codeBasePath, PoData poInExcel) {
 
         List<PropertyData> propertyList = poInExcel.getPropertyList();
+        String codePackage = poInExcel.getCodePackage();
 
         /* 1-创建文件*/
-        String codePackage = poInExcel.getCodePackage();
-        String codeChildPackageDir = codePackage.replaceAll("\\.", "\\" + File.separator);
-        String fileName = StrUtil.upperFirst(poInExcel.getEntityNameEn());
-        File javaPoFile = new File(codeBasePath + File.separator + codeChildPackageDir + File.separator + "po" + File.separator + fileName + "Po.java");
+        File codeFile = createCodeFile(codeBasePath, codePackage, poInExcel.getEntityNameEn(), AutoCodeFileType.PO);
 
         /* 2-编写文件内容 */
         List<String> codeLines = new ArrayList();
@@ -107,7 +102,6 @@ public class PoCodeGenerator {
 
 
         /* 3- 写入文件 */
-        FileUtil.del(javaPoFile);
-        FileUtil.appendUtf8Lines(codeLines, javaPoFile);
+        FileUtil.appendUtf8Lines(codeLines, codeFile);
     }
 }

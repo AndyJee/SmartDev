@@ -2,7 +2,6 @@ package cn.andyjee.smartdev.autocode.generator;
 
 import cn.andyjee.smartdev.autocode.bean.EnumData;
 import com.xiaoleilu.hutool.io.FileUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * 自动生成代码工具
  */
-public class EnumCodeGenerator {
+public class EnumCodeGenerator extends BaseCodeGenerator {
 
     /**
      * 生成Enum
@@ -21,11 +20,11 @@ public class EnumCodeGenerator {
      */
     public static void generatorCode(String codeBasePath, EnumData enumData) {
 
-        /* 1-创建文件*/
         String codePackage = enumData.getCodePackage();
-        String codeChildPackageDir = codePackage.replaceAll("\\.", "\\" + File.separator);
-        String fileName = StrUtil.upperFirst(enumData.getEntityNameEn());
-        File javaEnumFile = new File(codeBasePath + File.separator + codeChildPackageDir + File.separator + "enums" + File.separator + fileName + ".java");
+
+        /* 1-创建文件*/
+        File codeFile = createCodeFile(codeBasePath, codePackage, enumData.getEntityNameEn(), AutoCodeFileType.ENUM);
+
 
         /* 2-编写文件内容 */
         List<String> codeLines = new ArrayList();
@@ -76,8 +75,7 @@ public class EnumCodeGenerator {
         codeLines.add("}");
 
         /* 3- 写入文件 */
-        FileUtil.del(javaEnumFile);
-        FileUtil.appendUtf8Lines(codeLines, javaEnumFile);
+        FileUtil.appendUtf8Lines(codeLines, codeFile);
     }
 
 }

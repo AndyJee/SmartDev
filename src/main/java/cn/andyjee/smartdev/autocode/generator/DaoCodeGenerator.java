@@ -1,9 +1,7 @@
 package cn.andyjee.smartdev.autocode.generator;
 
 import cn.andyjee.smartdev.autocode.bean.PoData;
-import cn.andyjee.smartdev.autocode.bean.PropertyData;
 import com.xiaoleilu.hutool.io.FileUtil;
-import com.xiaoleilu.hutool.util.StrUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,7 +10,7 @@ import java.util.List;
 /**
  * 自动生成代码工具
  */
-public class DaoCodeGenerator {
+public class DaoCodeGenerator extends BaseCodeGenerator {
 
     /**
      * 生成PO
@@ -36,14 +34,10 @@ public class DaoCodeGenerator {
      */
     public static void generatorDaoCode(String codeBasePath, PoData poInExcel) {
 
-        List<PropertyData> propertyList = poInExcel.getPropertyList();
+        String codePackage = poInExcel.getCodePackage();
 
         /* 1-创建文件*/
-        String codePackage = poInExcel.getCodePackage();
-        String codeChildPackageDir = codePackage.replaceAll("\\.", "\\" + File.separator);
-        String fileName = StrUtil.upperFirst(poInExcel.getEntityNameEn());
-        File javaPoFile = new File(codeBasePath + File.separator + codeChildPackageDir + File.separator + "dao" + File.separator + "I" + fileName + "Dao.java");
-
+        File codeFile = createCodeFile(codeBasePath, poInExcel.getCodePackage(), poInExcel.getEntityNameEn(), AutoCodeFileType.DAO);
 
         /* 2-编写文件内容 */
         List<String> codeLines = new ArrayList();
@@ -54,7 +48,7 @@ public class DaoCodeGenerator {
 
         //import枚举
         codeLines.add("import cn.andyjee.smartdev.dao.IBaseDao;");
-        codeLines.add("import " + codePackage+ ".po." + poInExcel.getEntityNameEn() + "Po;");
+        codeLines.add("import " + codePackage + ".po." + poInExcel.getEntityNameEn() + "Po;");
         codeLines.add("import org.apache.ibatis.annotations.Mapper;");
         codeLines.add("");
 
@@ -71,7 +65,6 @@ public class DaoCodeGenerator {
 
 
         /* 3- 写入文件 */
-        FileUtil.del(javaPoFile);
-        FileUtil.appendUtf8Lines(codeLines, javaPoFile);
+        FileUtil.appendUtf8Lines(codeLines, codeFile);
     }
 }
